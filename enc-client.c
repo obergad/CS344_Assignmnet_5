@@ -1,3 +1,8 @@
+/* Program Name: enc-client.c
+** Author: Adam Oberg
+** Description:
+** Date:
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

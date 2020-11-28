@@ -1,45 +1,23 @@
-# Comprehensive Makefile
-# This will automatically compile any .c files in the current directory.
-# Some of the syntax was adapted from:
-# https://gist.github.com/Wenchy/64db1636845a3da0c4c7
-# http://nuclear.mutantstargoat.com/articles/make/
+CC=gcc --std=gnu99 -g
 
-CC = gcc
-CFLAGS = --std=gnu99
-SRCEXT = c
+all: compile
 
-BINDIR = .
-exe_file = smallsh
+compile: keygen enc_client enc_server dec_client dec_server
 
-# Handle debug case
-DEBUG ?= 1
-ifeq ($(DEBUG), 1)
-	CFLAGS += -g -Wall
-else
-	CFLAGS += -DNDEBUG -O3
-endif
+keygen: keygen.c
+    $(CC) keygen.c -o keygen
 
-SRCDIR = .
-BUILDDIR = build
-SOURCES = $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
-OBJECTS = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-DEP = $(OBJECTS:.o=.d)
+enc_server: enc_server.c
+    $(CC) enc_server.c -o enc_server
 
-all: $(exe_file)
+dec_server: dec_server.c
+    $(CC) dec_server.c -o dec_server
 
-$(exe_file): $(OBJECTS)
-	@mkdir -p $(BINDIR)
-	$(CC) -o $(exe_file) $^ $(LIB) $(LDFLAGS)
+enc_client: enc_client.c
+    $(CC) enc_client.c -o enc_client
 
-$(BUILDDIR)/%.d: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(BUILDDIR)
-	@$(CC) $(INC) $< -MM -MT $(@:.d=.o) >$@
+dec_client: dec_client.c
+    $(CC) dec_client.c -o dec_client
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
-
-.PHONY: clean
 clean:
-	rm -rf $(BUILDDIR) $(exe_file)
-
--include $(DEP)
+    rm -f *.out *.o keygen enc_server dec_server enc_client dec_client

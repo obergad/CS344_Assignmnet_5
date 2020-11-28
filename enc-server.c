@@ -1,3 +1,8 @@
+/* Program Name: enc-server.c
+** Author: Adam Oberg
+** Description:
+** Date:
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
