@@ -3,58 +3,37 @@
 ** Description:
 ** Date:
 */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <dirent.h>
+#include <time.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <fcntl.h>
-#include <signal.h>
 
-/*
-This fucntion is just made to display the creator of the program.
-Has no functionality
-*/
-void start_shell(){
-    printf("\n******************"
-    "************************");
-    printf("\n\n\n\t****Small Shell****");
-    printf("\n\n\t -By: Adam Oberg-");
-    printf("\n\n\n\n*******************"
-    "***********************");
-    char* username = getenv("USER");
-    printf("\nUSER is: @%s", username);
-    printf("\n");
-    fflush(stdout);
-    sleep(1);
-}
-//Function to exit the program.
-void exitProgram(){
+char* keygen(int keyLength){
   int i = 0;
-  printf("Exiting");
-  fflush(stdout);
-  while (i != 3) {
-    printf(".");
-    sleep(1);             //This is for the meme
-    fflush(stdout);
-    i++;
+  char* key = calloc(keyLength + 1, sizeof(char));
+  int randNum;
+  for (i = 0; i < keyLength; i++) {
+    randNum = 65 + rand() % 27; //Add random uppercase value;
+    if(randNum == 91) key[i] = ' '; // if 91 make space instead of [
+    else key[i] = randNum; //Add random uppercase value;
   }
-  sleep(1);
-  printf("\n");
-  fflush(stdout);
-  exit(0);
+  key[i + 1] = '\n'; // Add last char = \n
+  return key;
 }
-
-
 
 int main(int argc, char const *argv[]) {
-  start_shell();
-  exitProgram();
-  return 0;
+  char* key;
+  srand(time(NULL));
+  if (argc <= 2 ) {
+    int keyLength = atoi(argv[1]);
+    key = keygen(keyLength);
+  }
+  else{
+    printf("Error: No keyLength given\n");
+    return EXIT_FAILURE;
+  }
+  printf("%s\n", key );
+  free(key);
+  return EXIT_SUCCESS;
 }
