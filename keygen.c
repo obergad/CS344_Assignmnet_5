@@ -18,7 +18,7 @@ char* keygen(int keyLength){
     if(randNum == 91) key[i] = ' '; // if 91 make space instead of [
     else key[i] = randNum; //Add random uppercase value;
   }
-  key[i + 1] = '\n'; // Add last char = \n
+  key[i] = '\0'; // Add last char = \0
   return key;
 }
 
@@ -34,6 +34,5 @@ int main(int argc, char const *argv[]) {
     return EXIT_FAILURE;
   }
   printf("%s\n", key );
-  free(key);
   return EXIT_SUCCESS;
 }

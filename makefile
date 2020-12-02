@@ -1,7 +1,5 @@
+# CC=clang -g -fsanitize=address
 CC=gcc --std=gnu99 -g
-
-
-
 all: compile
 
 
