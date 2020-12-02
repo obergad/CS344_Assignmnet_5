@@ -77,7 +77,7 @@ char *encryptMessage(char* buffer){
 
    verEnc = strtok(buffer,"\n");
    if (strcmp(verEnc,"enc ") != 0) {
-     return("nobueno\n end \n");
+     return("You cannot connect to that server!\n end \n");
    }
    else{
      toEncrypt = strtok(NULL,"\n" );
@@ -170,12 +170,13 @@ int main(int argc, char *argv[]){
 	    // Get the message from the client and display it
 	    memset(buffer, '\0', strlen(buffer));
 	    // Read the client's message from the socket
+      //==============================================================================
+      // Recv loop error is here
 	    while (strstr(buffer,"\n end \n") == NULL) {
         memset(tempStr, '\0', strlen(tempStr));
 	       errno = 0;
-         printf("recv in enc_server\n");
+         // printf("recv in enc_server\n");
 	       charsRead = recv(connectionSocket, tempStr, sizeof(tempStr), 0);
-	       // printf("tempStr@enc_server159:%s\n", tempStr);
 	       if (charsRead < 0){
 		         error("SERVER: ERROR reading from socket");
 	       }
@@ -184,6 +185,7 @@ int main(int argc, char *argv[]){
 	       else
 		  strcat(buffer, tempStr);
 	    }
+      //==============================================================================
 
 	    //==========================================================================
 	    // char *saveptr;
@@ -192,12 +194,6 @@ int main(int argc, char *argv[]){
 	    // char *key = strtok_r(saveptr, "\n", &saveptr);
 	    // char* ciphertext = calloc(MAXCHAR + 1, sizeof(char*));
 	    // //this whole snipit separates key and buffer recived from server
-	    // fflush(stdout);
-	    // printf("buffer@l162:%s\n",buffer );
-	    // fflush(stdout);
-	    // printf("temp@l162:%s\n",temp );
-	    // fflush(stdout);
-	    // strcpy(buffer, temp);
       fflush(stdout);
       // printf("buffer@enc_serverB4enc:%s\n",buffer );
 	    strcpy(buffer,encryptMessage(buffer));
@@ -211,7 +207,7 @@ int main(int argc, char *argv[]){
 	    int i = 0;
 	    // Send a Success message back to the client
 	    while (i < strlen(buffer)) {
-        printf("sending in enc_server\n");
+        // printf("sending in enc_server\n");
 	       charsSent = send(connectionSocket, buffer, sizeLeft , 0);
          if (charsSent < 0) error("ERROR writing to socket");
 	       i += charsSent;
@@ -222,9 +218,10 @@ int main(int argc, char *argv[]){
 
 	    // Close the connection socket for this client
 	    close(connectionSocket);
+      exit(0);
    break;
    default:
-    waitpid(spawnpid, &childstatus, 0);
+    waitpid(spawnpid, &childstatus, 1);
    break;
  }
 }

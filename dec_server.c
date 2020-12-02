@@ -76,13 +76,15 @@ char *decryptMessage(char* buffer){
 
    verDec = strtok(buffer,"\n");
    if (strcmp(verDec,"dec ") != 0) {
-     return("nobueno\n end \n");
+     return("You are not allowed to connect to the wrong client\n end \n");
    }
    else{
      toDecrypt = strtok(NULL,"\n" );
      key = strtok(NULL,"\n" );
       for (size_t i = 0; i < strlen(toDecrypt); i++) {
          a = toDecrypt[i]; //Get ascii value for A
+         if (a == 32) a = 91;
+
          b = key[i]; //Get ascii value for b
          if (b == 32) b = 91;
          a = abs(a) - 65; //Subtract 65 from the abs of a
@@ -90,7 +92,9 @@ char *decryptMessage(char* buffer){
          a -= b;  //Add key and buffer value
          if (a < 0 ) a += 27;
          a = a % 27; // take mod 26 of a
-         if(a + 65 > 90 || a + 65 < 65) a = 32 - 65;
+         if((a + 65) > 90 || (a + 65) < 65){
+          a = 32 - 65;
+        }
          toDecrypt[i] = a + 65; // put ascii value of a + 65 back into array at i
       }
    }
@@ -168,7 +172,7 @@ int main(int argc, char *argv[]){
 	    // Get the message from the client and display it
 	    memset(buffer, '\0', strlen(buffer));
 	    // Read the client's message from the socket
-	    while (strstr(buffer,"\n end \n") == NULL) {
+	    while (strstr(buffer," end ") == NULL) {
         memset(tempStr, '\0', strlen(tempStr));
 	       errno = 0;
 	       charsRead = recv(connectionSocket, tempStr, sizeof(tempStr), 0);
@@ -220,7 +224,7 @@ int main(int argc, char *argv[]){
 	    close(connectionSocket);
    break;
    default:
-    waitpid(spawnpid, &childstatus, 0);
+    waitpid(spawnpid, &childstatus, 1);
    break;
  }
 }

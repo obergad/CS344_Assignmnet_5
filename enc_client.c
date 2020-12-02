@@ -119,7 +119,7 @@ char *getMessage(char* key, char* plaintext){
 int sendMessage(int socketFD, char* buffer){
   int charsWritten;
   // Write to the server
-  printf("send in enc_client\n");
+
   charsWritten = send(socketFD, buffer, strlen(buffer), 0);
   if (charsWritten < 0){
     error("CLIENT: ERROR writing to socket");
@@ -143,7 +143,7 @@ void readMessage(int socketFD, char* buffer, int bufferLen){
   while (strstr(buffer,"\n end \n") == NULL) {
     memset(tempStr, '\0', strlen(tempStr));
      errno = 0;
-     printf("recv in enc_client\n");
+     // printf("recv in enc_client\n");
      charsRead = recv(socketFD, tempStr, sizeof(tempStr), 0);
 
      // printf("tempStr@enc_server159:%s\n", tempStr);

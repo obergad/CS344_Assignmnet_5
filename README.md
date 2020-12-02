@@ -1,25 +1,20 @@
 # CS344_Assignmnet_5
 Assignment 5 for Oregon State University's CS344
 
+Hi Mr./Mrs TA. I love you. Thank you for taking the time to read my code and
+test it for me :)
+To test my code please run make and then run the test script.
+If you have any problems, please do not hesitate to email me or message me on
+canvas :)
+
+Thank you so much!
 
 
-
-enc_server 125696 &    
-enc_client plaintext1 key70000 125696 > ciphertext
-
-dec_server 156412 &
-dec_client ciphertext key70000 156412
-
-
-
-175471
-16013
-
-gcc -std=gnu99 -o server server.c
-gcc -std=gnu99 -o client client.c
-
-
-
-
-"enc \n" = encryption
-"\n end \n" = end of message
+_____ _                 _                        _
+|_   _| |               | |                      | |
+ | | | |__   __ _ _ __ | | __  _   _  ___  _   _| |
+ | | | '_ \ / _` | '_ \| |/ / | | | |/ _ \| | | | |
+ | | | | | | (_| | | | |   <  | |_| | (_) | |_| |_|
+ \_/ |_| |_|\__,_|_| |_|_|\_\  \__, |\___/ \__,_(_)
+                                __/ |              
+                               |___/               
